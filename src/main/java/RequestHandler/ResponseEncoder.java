@@ -2,6 +2,8 @@ package RequestHandler;
 
 import Model.Response.ResponseData;
 import Model.Response.StatusCode;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.List;
 
@@ -31,7 +33,12 @@ public class ResponseEncoder {
             }
             return stringBuilder.toString();
         } else {
-            throw new RuntimeException("Not implement");
+            try {
+                ObjectMapper objectMapper = new ObjectMapper();
+                return objectMapper.writeValueAsString(responseData) + "\n";
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 

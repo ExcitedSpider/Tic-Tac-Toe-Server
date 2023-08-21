@@ -22,7 +22,7 @@ public class StatementHandler {
 
     public StatementHandler(DictionaryShelf shelf) {
         this.shelf = shelf;
-        this.outputType = OutputType.TEXT;
+        this.outputType = OutputType.JSON;
     }
 
     public String resolve(Statement statement) {

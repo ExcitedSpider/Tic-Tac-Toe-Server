@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="DS-A1-Server:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/DS_A1_Server_jar</output-path>
+    <root id="archive" name="DS-A1-Server.jar">
+      <element id="module-output" name="DS-A1-Server" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/junit/junit/4.10/junit-4.10.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/hamcrest/hamcrest-core/1.1/hamcrest-core-1.1.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

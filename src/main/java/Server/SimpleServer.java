@@ -37,7 +37,7 @@ public class SimpleServer implements Runnable {
                 try {
                     String response = handler.resolve(statement);
                     client.writeString(response);
-                    logger.logInfo("Sent: \n" + response);
+                    logger.logInfo("Sent: \n" + response.stripTrailing());
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -45,7 +45,7 @@ public class SimpleServer implements Runnable {
 
             server.onError((exception, clientHandle) -> {
                 try {
-                    ResponseEncoder encoder = new ResponseEncoder(OutputType.TEXT);
+                    ResponseEncoder encoder = new ResponseEncoder(OutputType.JSON);
                     var response = new ResponseData<List<WordDefinition>>(StatusCode.ServerError, null, null, null);
                     clientHandle.writeString(encoder.encode(response));
                     clientHandle.getSocket().close();
