@@ -1,0 +1,37 @@
+# Formal Definition
+
+> This is the formal language definition
+> Author: Chew-Yi Feng
+
+sentence -> "USE" targetDict nextSentence
+		  | "QUERY" queryClause nextSentence
+		  | "UPSERT" upsertClause nextSentence
+		  | "DELETE" deleteClause nextSentence
+		  | "CREATE" <dictionary> nextSentence
+		  | "EXIT"
+
+nextSentence -> ε | ; sentence
+
+targetDict -> <dictionary>
+targetDict -> "DEFAULT"
+
+upsertClause -> wordDefs intoClause
+wordDefs -> tuple | restWordDefs
+restWordDefs -> ε | tuple restWordDefs
+
+tuple -> "(" items ")"
+items -> <tupleItem> restItems
+restItems -> ε | "," restItems
+
+queryClause ->  wordList fromClause
+fromClause -> ε | "FROM" <dictionary>
+wordList -> <word> restWords
+restWords -> ε | <word> restWords
+
+delete Clause ->  wordList fromClause
+
+# Example
+
+Insert multiple words into dictionary dict1
+
+UPSERT (Nunya, "Thank you") (Yuwei, "Until we meet again") (Boorie, "Boy, child", boa-rie, Noun) into Dict1
