@@ -92,7 +92,7 @@ public class AyncServer {
                             client.writeString(errorMsg + "\n") ;
                         }
 
-                    } while (!clientSocket.isClosed());
+                    } while (!clientSocket.isClosed() || !Thread.currentThread().isInterrupted());
                 } catch (Exception exception) {
                     try {
                         this.errorCallbacks.forEach(w -> w.accept(exception, client));
