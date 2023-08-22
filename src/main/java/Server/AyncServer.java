@@ -26,7 +26,7 @@ public class AyncServer {
     private final List<BiConsumer<Statement, ClientHandle>> requestCallback = new ArrayList<>();
     private final List<BiConsumer<Exception, ClientHandle>> errorCallbacks = new ArrayList<>();
     private final List<Consumer<ClientHandle>> disconnectionCallbacks = new ArrayList<>();
-    private ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+    private MyThreadPool executor = new MyThreadPool(1024);
 
     AtomicLong currentClients = new AtomicLong(0);
 
