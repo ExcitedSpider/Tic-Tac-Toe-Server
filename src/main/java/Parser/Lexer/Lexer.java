@@ -79,6 +79,7 @@ public class Lexer {
             case '(' -> new SymbolToken(SymbolEnum.LBracket);
             case ')' -> new SymbolToken(SymbolEnum.RBracket);
             case ',' -> new SymbolToken(SymbolEnum.Comma);
+            case '.' -> new SymbolToken(SymbolEnum.End);
             default -> null;
         };
         if(token != null) {

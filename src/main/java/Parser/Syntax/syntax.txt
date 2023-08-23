@@ -3,11 +3,11 @@
 > This is the formal language definition
 > Author: Chew-Yi Feng
 
-sentence -> "USE" targetDict nextSentence
-		  | "QUERY" queryClause nextSentence
-		  | "UPSERT" upsertClause nextSentence
-		  | "DELETE" deleteClause nextSentence
-		  | "CREATE" <dictionary> nextSentence
+sentence -> "USE" targetDict ; nextSentence
+		  | "QUERY" queryClause ; nextSentence
+		  | "UPSERT" upsertClause ; nextSentence
+		  | "DELETE" deleteClause ; nextSentence
+		  | "CREATE" <dictionary> ; nextSentence
 		  | "EXIT"
 
 nextSentence -> ε | ; sentence

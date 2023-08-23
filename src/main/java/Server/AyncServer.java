@@ -11,8 +11,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -83,7 +81,7 @@ public class AyncServer {
                         }
                         var parser = new Parser(line);
                         try {
-                            var statement = parser.parse();
+                            var statement = parser.parseOneLine();
                             logger.logInfo("Receive: "+statement);
                             if (statement instanceof DisconnectStatement){
                                 clientSocket.close();

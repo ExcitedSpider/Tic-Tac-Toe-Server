@@ -6,16 +6,19 @@ import Parser.Statement.StatementBuilder;
 import Parser.Syntax.Sentence;
 import Parser.SyntaxError.SyntaxError;
 
+import java.util.List;
+
 
 public class Parser {
-    private final Lexer lexer;
-    private final StatementBuilder statementBuilder = new StatementBuilder();
+    private final String input;
     public Parser(String input){
-        this.lexer = new Lexer(input);
+        this.input = input;
     }
 
-    public Statement parse() throws SyntaxError {
-        new Sentence().run(this.statementBuilder, this.lexer);
-        return this.statementBuilder.buildStatement();
+    public Statement parseOneLine() throws SyntaxError {
+        var lexer = new Lexer(input);
+        var statementBuilder = new StatementBuilder();
+        new Sentence().run(statementBuilder, lexer);
+        return statementBuilder.buildStatement();
     }
 }

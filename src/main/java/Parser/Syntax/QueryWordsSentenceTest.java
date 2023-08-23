@@ -9,7 +9,7 @@ import java.util.Objects;
 public class QueryWordsSentenceTest {
     @Test
     public void evaluatesExpression() throws Exception {
-        var statement = new Parser("QUERY \"Yi-da-ki\" ck abc FROM dict1").parse();
+        var statement = new Parser("QUERY \"Yi-da-ki\" ck abc FROM dict1").parseOneLine();
         if(statement instanceof QueryStatement queryStatement) {
             queryStatement.wordList.stream().forEach(System.out::println);
             assert queryStatement.wordList.size() == 3;
