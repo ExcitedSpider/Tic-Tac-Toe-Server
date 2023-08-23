@@ -26,17 +26,17 @@ public class AyncServer {
     private final List<BiConsumer<Statement, ClientHandle>> requestCallback = new ArrayList<>();
     private final List<BiConsumer<Exception, ClientHandle>> errorCallbacks = new ArrayList<>();
     private final List<Consumer<ClientHandle>> disconnectionCallbacks = new ArrayList<>();
-    private MyThreadPool executor = new MyThreadPool(1024);
+    private MyThreadPool executor = new MyThreadPool(2);
 
     AtomicLong currentClients = new AtomicLong(0);
 
-    public void listen(int port) throws IOException {
+    public void listen(int port) throws Exception {
         this.listen(port, (serverSocket) -> {
             logger.logInfo("Server is running on " + serverSocket.getLocalPort());
         });
     }
 
-    public void listen(int port, Consumer<ServerSocket> callback) throws IOException {
+    public void listen(int port, Consumer<ServerSocket> callback) throws Exception {
         if (this.serverSocket != null && !this.serverSocket.isClosed()) {
             throw new IOException("Server is already running");
         }
@@ -66,7 +66,7 @@ public class AyncServer {
         this.isHalt = true;
     }
 
-    private void eventLoop() throws IOException{
+    private void eventLoop() throws Exception {
         while (!this.isHalt) {
             Socket clientSocket = serverSocket.accept();
             ClientHandle client = new ClientHandle(clientSocket);
@@ -78,6 +78,9 @@ public class AyncServer {
                     logger.logInfo("Connected 1 client " + clientSocket.getInetAddress() + " " + "Current Clients:" + numOfClients);
                     do {
                         var line = client.readLine();
+                        if(line == null){
+                            break;
+                        }
                         var parser = new Parser(line);
                         try {
                             var statement = parser.parse();
@@ -91,7 +94,6 @@ public class AyncServer {
                             logger.logErr(errorMsg);
                             client.writeString(errorMsg + "\n") ;
                         }
-
                     } while (!clientSocket.isClosed() || !Thread.currentThread().isInterrupted());
                 } catch (Exception exception) {
                     try {

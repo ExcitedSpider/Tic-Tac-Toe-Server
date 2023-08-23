@@ -1,8 +1,8 @@
 package Server;
 
-import java.io.DataInputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
+import Logger.Logger;
+
+import java.io.*;
 import java.net.Socket;
 
 public class ClientHandle {
@@ -17,13 +17,18 @@ public class ClientHandle {
     }
 
     public String readLine() throws IOException {
-        var stream = new DataInputStream(socket.getInputStream());
-        return stream.readUTF();
+        try {
+            var stream = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
+            return stream.readUTF();
+        } catch (EOFException exception) {
+            Logger.getInstance().logInfo("Socket input stream closed");
+            return null;
+        }
     }
 
     public void writeString(String text) throws IOException {
         OutputStreamWriter writer = new OutputStreamWriter(this.socket.getOutputStream());
-        writer.write(text);
+        writer.write(text + "\n#\n"); // This is the symbol of EOF
         writer.flush();
     }
 }

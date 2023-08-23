@@ -20,7 +20,7 @@ public class MyThreadPool {
     private final AtomicBoolean isShutdown = new AtomicBoolean();
 
     public MyThreadPool(int maxThreadNum) {
-        this.maxThreadNum = Math.max(Math.max(minThreadNum, Runtime.getRuntime().availableProcessors()), maxThreadNum);
+        this.maxThreadNum = Math.max(minThreadNum, maxThreadNum);
     }
 
     public void shutdown() {
@@ -32,7 +32,7 @@ public class MyThreadPool {
         return isShutdown.get();
     }
 
-    public void execute(Runnable task) {
+    public void execute(Runnable task) throws Exception {
         if (task == null) throw new NullPointerException();
 
         if (currentNumThread.get() < maxThreadNum) {
@@ -43,7 +43,10 @@ public class MyThreadPool {
 
     }
 
-    private Thread runTask(Runnable task) {
+    private Thread runTask(Runnable task) throws Exception {
+        if (task==null){
+            throw new Exception("Task is null");
+        }
         Worker worker = new Worker();
         try {
             currentNumThread.addAndGet(1);
@@ -70,20 +73,23 @@ public class MyThreadPool {
     private void threadExitEffect(Thread thread) {
         try {
             mainLock.lock();
-            currentNumThread.addAndGet(-1);
+            var currentThread = currentNumThread.addAndGet(-1);
+            Logger.getInstance().logInfo("currentThread " + currentThread);
             threads.remove(thread);
             tryExecuteTasksInQueue();
-        } catch (InterruptedException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {
             mainLock.unlock();
         }
     }
 
-    private void tryExecuteTasksInQueue() throws InterruptedException {
-        while (currentNumThread.get() < maxThreadNum) {
-           var task = workQueue.poll(1000, TimeUnit.MILLISECONDS);
-           runTask(task);
+    private void tryExecuteTasksInQueue() throws Exception {
+        while (currentNumThread.get() < maxThreadNum && !workQueue.isEmpty()) {
+           var task = workQueue.poll();
+           if(task!=null) {
+               runTask(task);
+           }
         }
     }
 }
