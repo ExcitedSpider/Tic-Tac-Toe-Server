@@ -1,4 +1,4 @@
-package RequestHandler;
+package Controller;
 
 import Model.Response.ResponseData;
 import Model.Response.StatusCode;

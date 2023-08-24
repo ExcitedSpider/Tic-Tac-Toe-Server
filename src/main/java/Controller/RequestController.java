@@ -1,4 +1,4 @@
-package RequestHandler;
+package Controller;
 
 import Model.Dictionary.DictionaryShelf;
 import Model.Response.ResponseData;
@@ -11,16 +11,16 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
-public class StatementHandler {
+public class RequestController {
     private DictionaryShelf shelf = null;
     private final OutputType outputType;
 
-    public StatementHandler(DictionaryShelf shelf, OutputType outputType) {
+    public RequestController(DictionaryShelf shelf, OutputType outputType) {
         this.shelf = shelf;
         this.outputType = outputType;
     }
 
-    public StatementHandler(DictionaryShelf shelf) {
+    public RequestController(DictionaryShelf shelf) {
         this.shelf = shelf;
         this.outputType = OutputType.TEXT;
     }

@@ -5,15 +5,15 @@ import Model.Dictionary.DictionaryShelf;
 import Model.Response.ResponseData;
 import Model.Response.StatusCode;
 import Model.Word.WordDefinition;
-import RequestHandler.OutputType;
-import RequestHandler.ResponseEncoder;
-import RequestHandler.StatementHandler;
+import Controller.OutputType;
+import Controller.ResponseEncoder;
+import Controller.RequestController;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
-public class SimpleServer implements Runnable {
+public class DictServTask implements Runnable {
     private final int port;
     private final Logger logger = Logger.getInstance();
 
@@ -21,7 +21,7 @@ public class SimpleServer implements Runnable {
         return dictionaryShelf;
     }
 
-    public SimpleServer(int port, DictionaryShelf shelf) {
+    public DictServTask(int port, DictionaryShelf shelf) {
         this.port = port;
         this.dictionaryShelf = Objects.requireNonNullElseGet(shelf, () -> new DictionaryShelf("<default>"));
     }
@@ -32,7 +32,7 @@ public class SimpleServer implements Runnable {
     public void run() {
         try {
             AyncServer server = new AyncServer();
-            var handler = new StatementHandler(this.dictionaryShelf);
+            var handler = new RequestController(this.dictionaryShelf);
             server.onRequest((statement, client) -> {
                 try {
                     String response = handler.resolve(statement);

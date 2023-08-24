@@ -1,4 +1,4 @@
-package RequestHandler;
+package Controller;
 
 public enum OutputType {
     TEXT,
