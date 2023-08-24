@@ -31,6 +31,12 @@ public class ResponseEncoder {
                     stringBuilder.append(encodeModel(listModel));
                 }
             }
+            char lastChar = stringBuilder.charAt(stringBuilder.length() - 1);
+            if(lastChar == '\n') {
+                stringBuilder.append(".\n");
+            } else {
+                stringBuilder.append("\n.\n");
+            }
             return stringBuilder.toString();
         } else {
             try {
@@ -49,5 +55,4 @@ public class ResponseEncoder {
         }
         return stringBuilder.toString();
     }
-
 }

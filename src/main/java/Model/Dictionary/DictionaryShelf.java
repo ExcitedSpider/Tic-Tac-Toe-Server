@@ -71,6 +71,10 @@ public class DictionaryShelf implements Serializable {
         return currentDictionary;
     }
 
+    public String getDefaultDictionary() {
+        return defaultDictionary;
+    }
+
     public void resetCurrentDictionary() {
         this.currentDictionary = defaultDictionary;
     }

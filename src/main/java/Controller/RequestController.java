@@ -75,6 +75,11 @@ public class RequestController {
 
     private final Function<QueryStatement, ResponseData<List<WordDefinition>>> queryHandler = statement -> {
         var targetDictionary = statement.targetDictionary == null ? shelf.getCurrentDictionary() : statement.targetDictionary;
+
+        if(targetDictionary.equals("DEFAULT")) {
+            targetDictionary = shelf.getDefaultDictionary();
+        }
+
         var wordList = statement.wordList;
 
         ResponseData<List<WordDefinition>> responseData;

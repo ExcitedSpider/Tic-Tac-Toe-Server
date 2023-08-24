@@ -28,7 +28,7 @@ public class ClientHandle {
 
     public void writeString(String text) throws IOException {
         OutputStreamWriter writer = new OutputStreamWriter(this.socket.getOutputStream());
-        writer.write(text + "\n#\n"); // This is the symbol of EOF
+        writer.write(text);
         writer.flush();
     }
 }
