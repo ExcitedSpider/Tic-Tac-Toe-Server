@@ -111,6 +111,10 @@ public class Lexer {
             if(this.isEof()){
                 throw new SyntaxError("Quote word is not finished: \"" + stringBuilder.toString() + "\nPlease check your sentence.");
             }
+            if(input.charAt(currentLocation) == '\\' && input.charAt(currentLocation + 1) == '\"'){
+                stringBuilder.append('"');
+                this.currentLocation += 2;
+            }
         }
         this.currentLocation ++;
     }
