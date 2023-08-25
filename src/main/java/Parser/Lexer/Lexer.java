@@ -111,8 +111,17 @@ public class Lexer {
             if(this.isEof()){
                 throw new SyntaxError("Quote word is not finished: \"" + stringBuilder.toString() + "\nPlease check your sentence.");
             }
-            if(input.charAt(currentLocation) == '\\' && input.charAt(currentLocation + 1) == '\"'){
-                stringBuilder.append('"');
+            if(input.charAt(currentLocation) == '\\'){
+                char escapedChar = input.charAt(currentLocation + 1);
+                if(escapedChar == '\"') {
+                    stringBuilder.append('"');
+                } else if(escapedChar == 'n') {
+                    stringBuilder.append('\n');
+                } else if(escapedChar == 't') {
+                    stringBuilder.append('\t');
+                } else  {
+                    throw  new SyntaxError("Unsupported Escape Character \"\\" + escapedChar + "\"");
+                }
                 this.currentLocation += 2;
             }
         }
