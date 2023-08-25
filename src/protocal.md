@@ -25,7 +25,9 @@ This protocol is defined on a **reliable data stream** like TCP. Any specificati
 Tokens are composed by characters from UTF-8 encoding.
 
 ```
-Word = <any strings of characters without space and symbols> | <a phrase quoted by "">
+Word = <any strings of characters without space and symbols> | QuotedSentence
+QuotedSentence = " <any utf8 characters or EscapeCharacters> "
+EscapeCharacters = \n | \" | \t
 Symbol = ( | ) | " | ; | . | # | $ 
 Newline = <ASCII newline \n>
 EOF = "EOF"
