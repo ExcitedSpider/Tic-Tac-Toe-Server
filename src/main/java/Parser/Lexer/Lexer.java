@@ -9,12 +9,12 @@ class LexerHelper {
         return input == ' ' || input == '\n' || input == '\t';
     }
 
-    private static Pattern illegalPattern = Pattern.compile("[%<>^(),$]");
+    private static Pattern illegalPattern = Pattern.compile("[%#$<>]");
 
     private static Pattern wordPattern = Pattern.compile("[\\w-_]");
 
-    public static boolean isLegalWord(String word) {
-        return !word.isEmpty() && !LexerHelper.illegalPattern.matcher(word).matches();
+    public static java.util.regex.Matcher matchILegalWord(String word) {
+        return LexerHelper.illegalPattern.matcher(word);
     }
 
     public static boolean isLegalWordChar(char character) {
@@ -65,10 +65,12 @@ public class Lexer {
         }
 
         var word = stringBuilder.toString();
-        if (LexerHelper.isLegalWord(word)) {
+
+        var scan = LexerHelper.matchILegalWord(word);
+        if (!scan.matches()) {
             return new WordToken(word);
         } else {
-            throw new SyntaxError("Word " + word + " contains illegal character. Only English letters and numbers are allowed and it should starts with a letter.");
+            throw new SyntaxError("Word\"" + word + "(" + ")" + "\"contains illegal character "+ scan.toString() +". Only English letters and numbers are allowed and it should starts with a letter.");
         }
 
     }

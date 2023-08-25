@@ -32,7 +32,7 @@ public record TupleTerm(List<String> tupleItems) {
                         throw new SyntaxError("Unexpected Symbol in Tuple " + token);
                     }
                 } else {
-                    throw new SyntaxError("Unexpected Token in Token" + token);
+                    throw new SyntaxError("Unexpected Token in Token " + token);
                 }
                 token = lexer.nextToken();
             }

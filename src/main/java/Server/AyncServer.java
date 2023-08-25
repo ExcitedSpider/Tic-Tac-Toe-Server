@@ -1,6 +1,8 @@
 package Server;
 
 import Logger.Logger;
+import Model.Response.ResponseData;
+import Model.Response.StatusCode;
 import Parser.Parser;
 import Parser.Statement.DisconnectStatement;
 import Parser.Statement.Statement;
@@ -75,8 +77,8 @@ public class AyncServer {
                     var numOfClients =currentClients.addAndGet(1);
                     logger.logInfo("Connected 1 client " + clientSocket.getInetAddress() + " " + "Current Clients:" + numOfClients);
                     do {
-                        var line = client.readLine();
-                        if(line == null){
+                        var line = client.readRequest();
+                        if(line == null || line.isEmpty()){
                             break;
                         }
                         var parser = new Parser(line);
@@ -90,7 +92,7 @@ public class AyncServer {
                         } catch (SyntaxError error) {
                             String errorMsg = "Parse Error" + ": " + error.getMessage() + ". " + "Raw Input: " + line;
                             logger.logErr(errorMsg);
-                            client.writeString(errorMsg + "\n") ;
+                            client.writeResponse(new ResponseData<String>(StatusCode.BadRequest, null, null, errorMsg)); ;
                         }
                     } while (!clientSocket.isClosed() || !Thread.currentThread().isInterrupted());
                 } catch (Exception exception) {

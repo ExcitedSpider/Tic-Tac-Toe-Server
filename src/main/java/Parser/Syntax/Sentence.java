@@ -32,10 +32,10 @@ public class Sentence extends Syntax {
                         new UpsertSentence().run(builder, lexer);
                     }
                     case "EXIT" -> builder.setType(StatementType.DisconnectStatement);
-                    default -> throw new SyntaxError("Unexpected token" + wordToken.value);
+                    default -> throw new SyntaxError("Unexpected token " + wordToken.value);
                 }
             } else {
-                throw new SyntaxError("Unexpected Enf Of File");
+                throw new SyntaxError("Unexpected End Of File");
             }
         };
     }

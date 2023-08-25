@@ -112,7 +112,7 @@ public class RequestController {
         }
         try {
             this.shelf.addDictionary(dictionary);
-            return new ResponseData<>(StatusCode.Success, null, "Create Success", null);
+            return new ResponseData<>(StatusCode.Success, null, "Create Success. Dictionary: " + dictionary, null);
         } catch (Exception e) {
             return new ResponseData<>(StatusCode.ServerError, null, null, "Create Dictionary " + dictionary + " failed." + e.getMessage());
         }
@@ -129,7 +129,7 @@ public class RequestController {
         }
         try {
             this.shelf.setDictionary(dictionary);
-            return new ResponseData<>(StatusCode.Success, null, null, null);
+            return new ResponseData<>(StatusCode.Success, "Change Dictionary to " + dictionary, null, null);
         } catch (Exception e) {
             return new ResponseData<>(StatusCode.ServerError, null, null, "Change Dictionary " + dictionary + "Failed." + e.getMessage());
         }
