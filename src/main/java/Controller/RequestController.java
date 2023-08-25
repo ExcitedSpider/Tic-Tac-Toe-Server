@@ -8,6 +8,7 @@ import Parser.Statement.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -38,6 +39,9 @@ public class RequestController {
         if (statement instanceof UseDictStatement useDictStatement) {
             return this.encodeByType(this.useDictHandler.apply(useDictStatement));
         }
+        if(statement instanceof DirectiveStatement directiveStatement) {
+            return this.encodeByType(this.directiveHandler.apply(directiveStatement));
+        }
         throw new RuntimeException("Unexpected statement type");
     }
 
@@ -51,6 +55,10 @@ public class RequestController {
         var wordList = upsertStatement.newWords;
 
         ResponseData<List<WordDefinition>> responseData = new ResponseData<>();
+
+        if(targetDictionary.equals("DEFAULT")) {
+            targetDictionary = shelf.getDefaultDictionary();
+        }
 
         if (!this.shelf.hasDictionary(targetDictionary)) {
             responseData.setStatusCode(StatusCode.BadRequest);
@@ -133,5 +141,13 @@ public class RequestController {
         } catch (Exception e) {
             return new ResponseData<>(StatusCode.ServerError, null, null, "Change Dictionary " + dictionary + "Failed." + e.getMessage());
         }
+    };
+
+    private final Function<DirectiveStatement, ResponseData<String>> directiveHandler = directiveStatement -> {
+        if(Objects.equals(directiveStatement.directive, "LS")) {
+            var dictionaryNames = shelf.getDictionaryNames();
+            return new ResponseData<>(StatusCode.Success, String.join(" ", dictionaryNames), null, null);
+        }
+        return new ResponseData<>(StatusCode.BadRequest, null, null, "Unknown directive");
     };
 }

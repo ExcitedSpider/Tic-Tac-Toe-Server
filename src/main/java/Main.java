@@ -11,7 +11,10 @@ public class Main {
         var storage = new Storage("dictionary");
         Logger logger = Logger.getInstance();
         var loadedShelf = storage.loadStorage();
-        DictServTask sever = new DictServTask(8888, loadedShelf.orElseGet(() -> new DictionaryShelf("<default>")));
+        DictServTask sever = new DictServTask(8888, loadedShelf.orElseGet(() -> {
+            logger.logInfo("Cannot load dictionary. Create a new one.");
+            return new DictionaryShelf("<default>");
+        }));
         var serverThread = new Thread(sever);
         serverThread.start();
 

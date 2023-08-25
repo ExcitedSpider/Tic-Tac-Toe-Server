@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class DictServTask implements Runnable {
+    public static final String DefaultDictionaryName = "<default>";
     private final int port;
     private final Logger logger = Logger.getInstance();
 
@@ -23,7 +24,10 @@ public class DictServTask implements Runnable {
 
     public DictServTask(int port, DictionaryShelf shelf) {
         this.port = port;
-        this.dictionaryShelf = Objects.requireNonNullElseGet(shelf, () -> new DictionaryShelf("<default>"));
+        if(shelf != null && !shelf.hasDictionary(DefaultDictionaryName)) {
+            shelf.createDictionary(DefaultDictionaryName);
+        }
+        this.dictionaryShelf = Objects.requireNonNullElseGet(shelf, () -> new DictionaryShelf(DefaultDictionaryName));
     }
 
     private final DictionaryShelf dictionaryShelf;

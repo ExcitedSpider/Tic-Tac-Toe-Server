@@ -15,6 +15,16 @@ public class StatementBuilder {
     private final List<String> wordsList = new ArrayList<>();
 
     private final Set<WordDefinition> wordsDefSet = new HashSet<>();
+    private String directive = null;
+
+    public String getDirective() {
+        return directive;
+    }
+
+    public void setDirective(String directive) {
+        this.directive = directive;
+    }
+
     public void setType(StatementType type){
         this.targetType = type;
     }
@@ -37,6 +47,7 @@ public class StatementBuilder {
             case UpsertStatement ->
                 this.targetDictionary != null ? new UpsertStatement(this.wordsDefSet, this.targetDictionary) : new UpsertStatement(this.wordsDefSet);
             case CreateStatement -> new CreateDictStatement(this.targetDictionary);
+            case DirectiveStatement -> new DirectiveStatement(this.directive);
             default -> throw new SyntaxError("No provided target type");
         };
     }

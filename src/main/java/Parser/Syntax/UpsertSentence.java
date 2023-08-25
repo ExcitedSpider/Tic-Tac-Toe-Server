@@ -12,7 +12,7 @@ public class UpsertSentence extends Syntax {
     protected SyntaxLambda syntax() {
         return (builder, lexer) -> {
             this.wordDefsClause.parse(builder, lexer);
-            this.fromClause.parse(builder, lexer);
+            this.intoClause.parse(builder, lexer);
         };
     }
 
@@ -40,9 +40,9 @@ public class UpsertSentence extends Syntax {
         }
     };
 
-    SyntaxLambda fromClause = (builder, lexer) -> {
+    SyntaxLambda intoClause = (builder, lexer) -> {
         var token = lexer.nextToken();
-        if(token instanceof WordToken wordToken && wordToken.value.equals("FROM")){
+        if(token instanceof WordToken wordToken && wordToken.value.equals("INTO")){
             final var dictionary = lexer.nextToken();
             if(dictionary instanceof WordToken dictionaryToken) {
                 builder.setDictionary(dictionaryToken.value);

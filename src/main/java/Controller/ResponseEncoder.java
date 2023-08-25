@@ -29,6 +29,8 @@ public class ResponseEncoder {
             if (dataModel != null) {
                 if (dataModel instanceof List<?> listModel) {
                     stringBuilder.append(encodeModel(listModel));
+                } else {
+                    stringBuilder.append(dataModel);
                 }
             }
             char lastChar = stringBuilder.charAt(stringBuilder.length() - 1);

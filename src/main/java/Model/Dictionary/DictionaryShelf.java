@@ -3,9 +3,7 @@ package Model.Dictionary;
 import Model.Word.WordDefinition;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -23,6 +21,14 @@ public class DictionaryShelf implements Serializable {
 
     public boolean hasDictionary(String dictionaryName) {
         return dictionaryShelf.containsKey(dictionaryName);
+    }
+
+    public boolean createDictionary(String dictionaryName) {
+        if(dictionaryShelf.containsKey(dictionaryName)){
+            return false;
+        }
+        dictionaryShelf.put(dictionaryName, new ConcurrentHashMap<>());
+        return true;
     }
 
     public Optional<List<WordDefinition>> lookup(String word, String dictionaryName) throws Exception {
@@ -106,6 +112,12 @@ public class DictionaryShelf implements Serializable {
         this.defaultDictionary = defaultDictionary;
     }
 
+    public Set<String> getDictionaryNames() {
+        Set<String> set = new HashSet<>(this.dictionaryShelf.keySet());
+        set.remove(defaultDictionary);
+        set.add("DEFAULT");
+        return set;
+    }
     @Override
     public String toString() {
         return "DictionaryShelf{" +

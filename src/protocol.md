@@ -43,7 +43,7 @@ Each statement can be terminated by newline or end-point symbol(.).
 
 ```text
 Statement = 
-    | <UseDictionary>
+    | <ListDictionary>
     | <CreateDictionary>
     | <QueryDictionary>
     | <QueryWords>
@@ -96,29 +96,28 @@ abc: Australian Broadcasting Corporation
 
 ## 3. Statement
 
-### 3.1. UseDictionary
+### 3.1. ListDictionary
 
 Change current target dictionary.
 
 Formal Definition:
 
 ```text
-sentence -> "USE" targetDict
-targetDict -> <dictionary>
-targetDict -> "DEFAULT"
+sentence -> "LS" | "LIST"
 ```
 
 Example
 
 ```text
-USE dict2
+LS
 ```
 
 Response
 
 ```text
 200 Success
-Change current dictionary to dict2
+DEFAULT ChineseDictionary KoreanDictionary
+.
 ```
 
 ### 3.2 QueryDictionary

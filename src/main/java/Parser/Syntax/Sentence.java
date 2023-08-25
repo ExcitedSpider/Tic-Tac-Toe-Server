@@ -11,6 +11,10 @@ public class Sentence extends Syntax {
             var token = lexer.nextToken();
             if(token instanceof WordToken wordToken){
                 switch (wordToken.value) {
+                    case "LIST", "LS" -> {
+                        builder.setType(StatementType.DirectiveStatement);
+                        builder.setDirective("LS");
+                    }
                     case "USE" -> {
                         builder.setType(StatementType.UseStatement);
                         new DictUseSentence().run(builder, lexer);
