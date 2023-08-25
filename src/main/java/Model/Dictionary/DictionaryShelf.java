@@ -3,8 +3,12 @@ package Model.Dictionary;
 import Model.Word.WordDefinition;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class DictionaryShelf implements Serializable {
     private final ConcurrentHashMap<String, ConcurrentHashMap<String, WordDefinition>> dictionaryShelf = new ConcurrentHashMap<>();
@@ -21,20 +25,39 @@ public class DictionaryShelf implements Serializable {
         return dictionaryShelf.containsKey(dictionaryName);
     }
 
-    public Optional<WordDefinition> lookup(String word, String dictionaryName) throws Exception {
+    public Optional<List<WordDefinition>> lookup(String word, String dictionaryName) throws Exception {
         if (!dictionaryShelf.containsKey(dictionaryName)) {
             throw new Exception("No such dictionary " + dictionaryName);
         }
         var dictionary = dictionaryShelf.get(dictionaryName);
-        if (!dictionary.containsKey(word)) {
-            return Optional.empty();
+        if (word.contains("*")) {
+            return searchByPattern(word, dictionary);
+        } else {
+            if (!dictionary.containsKey(word)) {
+                return Optional.empty();
+            }
+            return Optional.of(List.of(dictionary.get(word)));
         }
-        ;
-        return Optional.of(dictionary.get(word));
+
     }
 
-    public Optional<WordDefinition> lookup(String word) throws Exception {
-        return this.lookup(word, this.currentDictionary);
+    public Optional<List<WordDefinition>> searchByPattern(String rawPattern, ConcurrentHashMap<String, WordDefinition> dictionary) {
+        var patternStr = rawPattern.replace("*", ".*");
+
+        Pattern pattern = Pattern.compile(patternStr);
+
+        List<WordDefinition> wordDefinitions = new ArrayList<>();
+        // Search for keys matching the pattern
+        for (String key : dictionary.keySet()) {
+            Matcher matcher = pattern.matcher(key);
+            if (matcher.matches()) {
+                wordDefinitions.add(dictionary.get(key));
+            }
+        }
+        if(!wordDefinitions.isEmpty()) {
+            return Optional.of(wordDefinitions);
+        }
+        return Optional.empty();
     }
 
     public void upsert(WordDefinition def, String dictionaryName) throws Exception {

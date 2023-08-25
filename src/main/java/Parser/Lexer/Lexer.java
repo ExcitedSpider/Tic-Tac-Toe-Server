@@ -11,7 +11,7 @@ class LexerHelper {
 
     private static Pattern illegalPattern = Pattern.compile("[%#$<>]");
 
-    private static Pattern wordPattern = Pattern.compile("[\\w-_]");
+    private static Pattern wordPattern = Pattern.compile("[\\w-_\\*]");
 
     public static java.util.regex.Matcher matchILegalWord(String word) {
         return LexerHelper.illegalPattern.matcher(word);
@@ -90,13 +90,16 @@ public class Lexer {
         return token;
     }
 
-    private void unquotedWord(StringBuilder stringBuilder) {
+    private void unquotedWord(StringBuilder stringBuilder) throws SyntaxError {
         var currentChar = input.charAt(currentLocation);
 
-        while (!LexerHelper.shouldOmit(currentChar) && LexerHelper.isLegalWordChar(currentChar)) {
+        if(!LexerHelper.isLegalWordChar(currentChar)){
+            throw new SyntaxError("Illegal Character \"" + currentChar + "\"");
+        }
+        while (!LexerHelper.shouldOmit(currentChar)) {
             stringBuilder.append(currentChar);
             this.currentLocation++;
-            if (this.isEof()) {
+            if (this.isEof() || parseSymbolToken()!=null) {
                 break;
             }
             currentChar = input.charAt(currentLocation);

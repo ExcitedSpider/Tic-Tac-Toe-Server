@@ -89,11 +89,11 @@ public class RequestController {
             try {
                 List<WordDefinition> defs = new ArrayList<>();
                 for (String searchWord : wordList) {
-                    Optional<WordDefinition> definition = this.shelf.lookup(searchWord, targetDictionary);
-                    if (definition.isEmpty()) {
+                    Optional<List<WordDefinition>> definitions = this.shelf.lookup(searchWord, targetDictionary);
+                    if (definitions.isEmpty()) {
                         defs.add(new WordDefinition(searchWord, "Not Found", null, null));
                     } else {
-                        defs.add(definition.get());
+                        defs.addAll(definitions.get());
                     }
                 }
                 responseData = new ResponseData<>(StatusCode.Success, defs, null, null);
