@@ -77,15 +77,20 @@ public class Lexer {
 
     private SymbolToken parseSymbolToken() {
         var character = input.charAt(currentLocation);
+        var token = getSymbolToken(character);
+        if(token != null) {
+            this.currentLocation ++;
+        };
+        return token;
+    }
+
+    private static SymbolToken getSymbolToken(char character) {
         var token = switch (character) {
             case '(' -> new SymbolToken(SymbolEnum.LBracket);
             case ')' -> new SymbolToken(SymbolEnum.RBracket);
             case ',' -> new SymbolToken(SymbolEnum.Comma);
             case '.' -> new SymbolToken(SymbolEnum.End);
             default -> null;
-        };
-        if(token != null) {
-            this.currentLocation ++;
         };
         return token;
     }
@@ -96,10 +101,11 @@ public class Lexer {
         if(!LexerHelper.isLegalWordChar(currentChar)){
             throw new SyntaxError("Illegal Character \"" + currentChar + "\"");
         }
-        while (!LexerHelper.shouldOmit(currentChar)) {
+        while (!LexerHelper.shouldOmit(currentChar) && getSymbolToken(currentChar)==null) {
             stringBuilder.append(currentChar);
+
             this.currentLocation++;
-            if (this.isEof() || parseSymbolToken()!=null) {
+            if (this.isEof() || getSymbolToken(currentChar)!=null) {
                 break;
             }
             currentChar = input.charAt(currentLocation);

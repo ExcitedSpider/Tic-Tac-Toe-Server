@@ -2,6 +2,7 @@ package Logger;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 
 public class Logger {
     private final static Logger instance = new Logger();
@@ -18,7 +19,7 @@ public class Logger {
     }
 
     public void logErr(Exception exception) {
-        System.err.println("[Error]" + "[" + Logger.getCurrentTimeString() + "]" + exception.getMessage());
+        System.err.println("[Error]" + "[" + Logger.getCurrentTimeString() + "]" + exception.getMessage() + "\n" + Arrays.toString(exception.getStackTrace()));
         exception.printStackTrace(System.err);
     }
 

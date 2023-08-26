@@ -1,6 +1,9 @@
 package Model.Word;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 
 public record WordDefinition(String spelling, String meaning, String type, String pronounce) implements Serializable {
     @Override
@@ -13,13 +16,17 @@ public record WordDefinition(String spelling, String meaning, String type, Strin
         var stringBuilder = new StringBuilder();
         stringBuilder.append(spelling);
         if (meaning != null) {
-            stringBuilder.append(": ").append(meaning);
+            stringBuilder.append(":\t").append(meaning);
         }
-        if(type != null) {
-            stringBuilder.append(type).append("\n");
-        }
-        if(pronounce != null) {
-            stringBuilder.append(pronounce).append("\n");
+
+        Map<String, String> secondaryInfo = new HashMap<>();
+        if(type!=null) secondaryInfo.put("type", type);
+        if(pronounce!=null) secondaryInfo.put("pronounce", pronounce);
+        if(!secondaryInfo.isEmpty()) {
+            stringBuilder.append("\n\t");
+            for (Map.Entry<?, ?> entry : secondaryInfo.entrySet()) {
+                stringBuilder.append(entry.getKey()).append("=").append(entry.getValue()).append(", ");
+            }
         }
         return stringBuilder.toString();
     }

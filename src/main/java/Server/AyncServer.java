@@ -92,6 +92,7 @@ public class AyncServer {
                         } catch (SyntaxError error) {
                             String errorMsg = "Parse Error" + ": " + error.getMessage() + ". " + "Raw Input: " + line;
                             logger.logErr(errorMsg);
+                            logger.logErr(error);
                             client.writeResponse(new ResponseData<String>(StatusCode.BadRequest, null, null, errorMsg)); ;
                         }
                     } while (!clientSocket.isClosed() || !Thread.currentThread().isInterrupted());
