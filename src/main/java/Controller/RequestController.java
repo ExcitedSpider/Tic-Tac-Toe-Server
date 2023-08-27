@@ -1,3 +1,9 @@
+/*
+ * Name: Chew-Yi
+ * Surname: Feng
+ * StudentID: 1431319
+ */
+
 package Controller;
 
 import Model.Dictionary.DictionaryShelf;

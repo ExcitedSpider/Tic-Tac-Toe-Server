@@ -1,3 +1,9 @@
+/*
+ * Name: Chew-Yi
+ * Surname: Feng
+ * StudentID: 1431319
+ */
+
 import Logger.Logger;
 import Model.Dictionary.DictionaryShelf;
 import Server.DictServTask;

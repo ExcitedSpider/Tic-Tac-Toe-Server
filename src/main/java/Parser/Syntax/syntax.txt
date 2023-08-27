@@ -2,6 +2,7 @@
 
 > This is the formal language definition
 > Author: Chew-Yi Feng
+> Student ID: 1431319
 
 sentence -> "USE" targetDict ; nextSentence
 		  | "QUERY" queryClause ; nextSentence

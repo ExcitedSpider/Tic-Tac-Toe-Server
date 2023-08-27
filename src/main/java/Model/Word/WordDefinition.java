@@ -1,3 +1,8 @@
+/*
+ * Name: Chew-Yi
+ * Surname: Feng
+ * StudentID: 1431319
+ */
 package Model.Word;
 
 import java.io.Serializable;

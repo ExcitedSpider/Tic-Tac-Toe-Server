@@ -1,3 +1,9 @@
+/*
+ * Name: Chew-Yi
+ * Surname: Feng
+ * StudentID: 1431319
+ */
+
 package Parser.Lexer;
 
 public class SymbolToken extends Token {
