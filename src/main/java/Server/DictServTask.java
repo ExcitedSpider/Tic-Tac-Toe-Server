@@ -35,7 +35,7 @@ public class DictServTask implements Runnable {
     @Override
     public void run() {
         try {
-            AyncServer server = new AyncServer();
+            AbstractAyncServer server = new AyncServer();
             var handler = new RequestController(this.dictionaryShelf);
             server.onRequest((statement, client) -> {
                 try {

@@ -16,14 +16,14 @@ public record WordDefinition(String spelling, String meaning, String type, Strin
         var stringBuilder = new StringBuilder();
         stringBuilder.append(spelling);
         if (meaning != null) {
-            stringBuilder.append(":\t").append(meaning);
+            stringBuilder.append(":").append(meaning);
         }
 
         Map<String, String> secondaryInfo = new HashMap<>();
         if(type!=null) secondaryInfo.put("type", type);
         if(pronounce!=null) secondaryInfo.put("pronounce", pronounce);
         if(!secondaryInfo.isEmpty()) {
-            stringBuilder.append("\n\t");
+            stringBuilder.append("\n");
             for (Map.Entry<?, ?> entry : secondaryInfo.entrySet()) {
                 stringBuilder.append(entry.getKey()).append("=").append(entry.getValue()).append(", ");
             }

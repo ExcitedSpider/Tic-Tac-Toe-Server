@@ -17,7 +17,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-public class AyncServer {
+public class AyncServer implements AbstractAyncServer {
     ServerSocket serverSocket = null;
     boolean isHalt = false;
     private final Logger logger = Logger.getInstance();
@@ -30,12 +30,14 @@ public class AyncServer {
 
     AtomicLong currentClients = new AtomicLong(0);
 
+    @Override
     public void listen(int port) throws Exception {
         this.listen(port, (serverSocket) -> {
             logger.logInfo("Server is running on " + serverSocket.getLocalPort());
         });
     }
 
+    @Override
     public void listen(int port, Consumer<ServerSocket> callback) throws Exception {
         if (this.serverSocket != null && !this.serverSocket.isClosed()) {
             throw new IOException("Server is already running");
@@ -45,23 +47,28 @@ public class AyncServer {
         eventLoop();
     }
 
+    @Override
     public void onConnection(Consumer<ClientHandle> callback) {
         this.connectionCallbacks.add(callback);
     }
 
+    @Override
     public void onDisconnection(Consumer<ClientHandle> callback) {
         this.disconnectionCallbacks.add(callback);
     }
 
 
+    @Override
     public void onRequest(BiConsumer<Statement, ClientHandle> consumer) {
         this.requestCallback.add(consumer);
     }
 
+    @Override
     public void onError(BiConsumer<Exception, ClientHandle> biConsumer) {
         this.errorCallbacks.add(biConsumer);
     }
 
+    @Override
     public void halt() {
         this.isHalt = true;
     }
