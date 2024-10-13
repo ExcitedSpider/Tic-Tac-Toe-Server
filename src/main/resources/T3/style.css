@@ -1,0 +1,8 @@
+.fulfilled-cell {
+    -fx-background-color: rgba(93, 172, 129, .2);
+}
+
+.error-message{
+    -fx-text-fill: red;
+    -fx-fill: red;
+}
