@@ -5,9 +5,10 @@ This is a multi-player tic-tac-toe game implemented in Java. Key features includ
 - Read-time ranking board.
 - Chatting with your opponent.
 - Gracefully handle disconnect and reconnect of players. 
-- Please refer to [Software Manual](./Software_Manual_Tic-Tac-Toe.pdf) for full specification. 
 - Reactive UI layout.
 - Use only javaRMI and Sockets for networking.
+
+Please refer to [Software Manual](./Software_Manual_Tic-Tac-Toe.pdf) for full specification. 
 
 Preview:
 ![Preview](preview.png)
