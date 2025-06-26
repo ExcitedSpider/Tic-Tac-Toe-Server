@@ -20,8 +20,8 @@ public class T3RemoteServer {
         File file = new File(RANKING_FILE);
         if(file.exists()) {
             try {
-                var ranking = PlayerRankings.load(RANKING_FILE);
                 Logger.getInstance().logInfo("Load ranking from storage");
+                var ranking = PlayerRankings.load(RANKING_FILE);
                 return ranking;
             } catch (IOException e) {
                 Logger.getInstance().logErr("Ranking file not found. Create a new one");
